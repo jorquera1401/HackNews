@@ -1,1 +1,14 @@
-<p>articulo works!</p>
+<div  class="main-content">
+    <ol>
+      <li *ngFor="let item of noticias | slice:start:end" class="post">
+        <a href="{{item.url}}" target="_blank"> {{item.title}}</a>  
+        <p>{{item.score}} points by {{item.by}}</p>
+    </li>
+           
+    </ol>
+    <div class="nav">
+        <button (click)="atras()">Prev</button>
+        <button (click)="avanzar()">More</button>
+     
+    </div>
+</div>

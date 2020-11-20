@@ -1,1 +1,12 @@
-<p>comentario works!</p>
+<h2>Comentarios</h2>
+
+<div>
+    <h1>{{this.articulo}}</h1>
+    <p>ID: {{this.id}}</p>
+    <ol>
+        <li *ngFor="let comment of personas">
+            <p>by: {{comment.by}} </p>
+            <p>{{comment.text}}</p>
+        </li>
+    </ol>
+</div>
