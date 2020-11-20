@@ -3,6 +3,9 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
 import {  HackernewsApiService} from "../hackernews-api.service";
+
+import { ActivatedRoute,ParamMap } from "@angular/router";
+
 @Component({
   selector: 'app-comentario',
   templateUrl: './comentario.component.html',
@@ -15,21 +18,34 @@ export class ComentarioComponent implements OnInit {
   personas : any;
   articulo : string;
   fecha:Date;
-  constructor(private _hackerNewsAPIService:HackernewsApiService) { 
+  numero : number;
+  constructor(private activatedRouter:ActivatedRoute ,private _hackerNewsAPIService:HackernewsApiService) { 
     this.comentarios=[];
     this.kids=[];
     this.personas=[];
     this.articulo="";
     this.id=0;
   }
-
+  /**
+   * Recibe el id en el parametro del explorador 
+   * Se busca los comentarios 
+   */
   ngOnInit(): void {
-    this._hackerNewsAPIService.getComentario(8863).subscribe(
+    
+    this.activatedRouter.paramMap.subscribe((parametros:ParamMap)=>{
+      this.numero=parseInt(parametros.get('id'));
+    })
+    this._hackerNewsAPIService.getComentario(this.numero).subscribe(
       data=>{
-        this.agregarStory(data);
+        if(data)
+          this.agregarStory(data);
       }
     );
   }
+  /**
+   * verifica si es una historia o no
+   * @param elemento JSON de la historia
+   */
   agregarStory(elemento):void{
     let kids = elemento["kids"];
     let tipo = elemento["type"];
@@ -62,7 +78,7 @@ export class ComentarioComponent implements OnInit {
     });
   }
   /**
-   * 
+   * crea un objeto de los comentario con el nombre y el texto
    * @param data json de comentarios de personas de una publicacion
    */
   descomponerComentario(data:any):void{
