@@ -1,10 +1,10 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/core';
 import {HackernewsApiService} from '../hackernews-api.service';
 
 @Component({
   selector: 'app-articulo',
   templateUrl: './articulo.component.html',
-  styleUrls: ['./articulo.component.css']
+  styleUrls: ['./articulo.component.css'],
 })
 
 export class ArticuloComponent implements OnInit {
@@ -18,7 +18,9 @@ export class ArticuloComponent implements OnInit {
     this.start=0;
     this.end=50;
   }
-  //Carga de los servicio a la API
+  /**
+   * Carga de los servicio a la API
+   * */
   ngOnInit(): void {
     this._hackerNewsAPIService.getArticulos().subscribe(
       data=>{
@@ -44,7 +46,8 @@ export class ArticuloComponent implements OnInit {
     let url = elemento['url']
     let score = elemento['score']
     let time = elemento['time']
-
+    
+    //Objeto para visualizar en el componenete html
     var noticia = {
       id:id,
       title:title,
@@ -60,6 +63,9 @@ export class ArticuloComponent implements OnInit {
     }
 
   }
+  /**
+   * Permite mostrar los siguientes articulos
+   */
   avanzar():void{
     if(this.end<this.noticias.length){  
       this.start+=50;
@@ -67,6 +73,9 @@ export class ArticuloComponent implements OnInit {
     }
     console.log(this.start, this.end)
   }
+  /**
+   * permite retroceder
+   */
   atras():void{
     if(this.start>50){
       this.start-=50;
